@@ -15,6 +15,6 @@ public class UserRepositoryImpl extends BaseRepositoryImpl<Long, User> implement
            return "from User";
     }
     public Class<User> getClassType(){
-        return this.getClassType();
+        return User.class;
     }
 }

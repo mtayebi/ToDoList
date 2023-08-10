@@ -13,7 +13,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-@DiscriminatorColumn(columnDefinition = "user_type")
+@DiscriminatorValue(value = "user")
 public class User extends BaseEntity<Long> {
     private String username;
     private String password;

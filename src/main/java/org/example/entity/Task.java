@@ -1,22 +1,23 @@
 package org.example.entity;
 
 
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.base.entity.BaseEntity;
+import org.example.entity.enumeration.Status;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@DiscriminatorColumn(columnDefinition = "task_entity")
+@DiscriminatorValue(value = "task")
 public class Task extends BaseEntity<Long> {
     private String title;
     private String description;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @ManyToOne
     private User user;
