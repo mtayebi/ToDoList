@@ -9,19 +9,16 @@ import org.example.config.AppEntityManagerFactory;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 public class BaseServiceImpl<ID extends Serializable, T extends BaseEntity<ID>,
         R extends BaseRepository<ID,T>> implements BaseService<ID, T> {
-    EntityManagerFactory entityManagerFactory;
     EntityManager entityManager;
     protected final R entityRepository;
 
-    {
-        entityManagerFactory = AppEntityManagerFactory.getEMF();
-        entityManager = entityManagerFactory.createEntityManager();
-    }
-    BaseServiceImpl(R entityRepository){
+    public BaseServiceImpl(R entityRepository, EntityManager entityManager){
         this.entityRepository = entityRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -33,16 +30,24 @@ public class BaseServiceImpl<ID extends Serializable, T extends BaseEntity<ID>,
 
     @Override
     public void update(T entity) {
-
+        entityManager.getTransaction().begin();
+        entityRepository.update(entity);
+        entityManager.getTransaction().commit();
     }
 
     @Override
     public T findById(ID id) {
-        return null;
+        entityManager.getTransaction().begin();
+        T entity = entityRepository.findById(id);
+        entityManager.getTransaction().commit();
+        return entity;
     }
 
     @Override
     public Collection<T> findAll() {
-        return null;
+        entityManager.getTransaction().begin();
+        List<T> entities = (List<T>) entityRepository.findAll();
+        entityManager.getTransaction().commit();
+        return entities;
     }
 }
